@@ -12,24 +12,25 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    const CONFIG_EXTS = '.{php,xml,yaml,yml}';
-
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
-        return $this->getProjectDir().'/var/cache/'.$this->environment;
+        return \sprintf('%s/var/cache/%s',
+            $this->getProjectDir(),
+            $this->environment);
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
-        return $this->getProjectDir().'/var/log';
+        return \sprintf('%s/var/log', $this->getProjectDir());
     }
 
-    public function registerBundles()
+    public function registerBundles(): \Generator
     {
-        $contents = require $this->getProjectDir().'/config/bundles.php';
-        foreach ($contents as $class => $envs) {
-            if (isset($envs['all']) || isset($envs[$this->environment])) {
-                yield new $class();
+        $bundles = require $this->getConfigurationPath('bundles.php');
+
+        foreach ($bundles as $className => $environments) {
+            if (isset($environments['all']) || isset($environments[$this->environment])) {
+                yield new $className();
             }
         }
     }
@@ -38,24 +39,40 @@ class Kernel extends BaseKernel
     {
         $container->setParameter('container.autowiring.strict_mode', true);
         $container->setParameter('container.dumper.inline_class_loader', true);
-        $confDir = $this->getProjectDir().'/config';
-        $loader->load($confDir.'/packages/*'.self::CONFIG_EXTS, 'glob');
-        if (is_dir($confDir.'/packages/'.$this->environment)) {
-            $loader->load($confDir.'/packages/'.$this->environment.'/**/*'.self::CONFIG_EXTS, 'glob');
+
+        // Load packages configuration
+        $loader->load($this->getConfigurationPath('packages/*.yaml'), 'glob');
+
+        if (\is_dir($this->getConfigurationPath('packages', $this->environment))) {
+            $loader->load($this->getConfigurationPath('packages', $this->environment, '/**/*.yaml'), 'glob');
         }
-        $loader->load($confDir.'/services'.self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir.'/services_'.$this->environment.self::CONFIG_EXTS, 'glob');
+
+        // Load application services
+        $loader->load($this->getConfigurationPath('services.yaml'));
+
+        if (\file_exists($this->getConfigurationPath('services_' . $this->environment . '.yaml'))) {
+            $loader->load($this->getConfigurationPath('services_' . $this->environment . '.yaml'));
+        }
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
-        $confDir = $this->getProjectDir().'/config';
-        if (is_dir($confDir.'/routes/')) {
-            $routes->import($confDir.'/routes/*'.self::CONFIG_EXTS, '/', 'glob');
+        // Load packages routes
+        if (\is_dir($this->getConfigurationPath('routes'))) {
+            $routes->import($this->getConfigurationPath('routes/*.yaml'), '/', 'glob');
         }
-        if (is_dir($confDir.'/routes/'.$this->environment)) {
-            $routes->import($confDir.'/routes/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
+        if (\is_dir($this->getConfigurationPath('routes', $this->environment))) {
+            $routes->import($this->getConfigurationPath('routes', $this->environment, '*.yaml'), '/', 'glob');
         }
-        $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
+
+        // Load application routes
+        $routes->import($this->getConfigurationPath('routes.yaml'));
+    }
+
+    private function getConfigurationPath(string ...$components): string
+    {
+        return \sprintf('%s/config/%s',
+            $this->getProjectDir(),
+            \implode("/", $components));
     }
 }
