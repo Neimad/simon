@@ -19,8 +19,9 @@
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
-        "symfony/flex": "^1.0",
-        "symfony/dotenv": "^4.0"
+        "behat/symfony2-extension": "^2.1",
+        "symfony/dotenv": "^4.0",
+        "symfony/flex": "^1.0"
     },
     "config": {
         "preferred-install": {
