@@ -1,0 +1,8 @@
+parameters:
+    routes_basepath: /routes
+
+cmf_routing_auto:
+    persistence:
+        phpcr:
+            enabled: true
+            route_basepath: '%routes_basepath%'

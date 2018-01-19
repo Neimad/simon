@@ -5,12 +5,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-/**
- * This context class contains the definitions of the steps used by the demo 
- * feature file. Learn how to get started with Behat and BDD on Behat's website.
- * 
- * @see http://behat.org/en/latest/quick_start.html
- */
 class FeatureContext implements Context
 {
     /**
@@ -29,17 +23,17 @@ class FeatureContext implements Context
     }
 
     /**
-     * @When a demo scenario sends a request to :path
+     * @When a user requests the page located at :path
      */
-    public function aDemoScenarioSendsARequestTo(string $path)
+    public function a_user_requests_a_page(string $path)
     {
         $this->response = $this->kernel->handle(Request::create($path, 'GET'));
     }
 
     /**
-     * @Then the response should be received
+     * @Then he should receive a response
      */
-    public function theResponseShouldBeReceived()
+    public function he_should_receive_a_response()
     {
         if ($this->response === null) {
             throw new \RuntimeException('No response received');

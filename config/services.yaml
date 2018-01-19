@@ -10,3 +10,11 @@ services:
     App\Controller\:
         resource: '%kernel.project_dir%/src/Controller'
         tags: ['controller.service_arguments']
+
+    app.phpcr.initializer:
+        class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
+        arguments:
+            - Repositories
+            - ['pages']
+        tags:
+            - {name: doctrine_phpcr.initializer}

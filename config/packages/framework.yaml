@@ -3,3 +3,6 @@ framework:
 
     php_errors:
         log: true
+
+    validation:
+        enabled: true # Needed by the routing bundle

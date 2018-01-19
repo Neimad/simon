@@ -1,0 +1,8 @@
+Neimad\SimonBundle\Document\Page:
+    definitions:
+        view:
+            uri_schema: /{title}
+            defaults:
+                _controller: 'Neimad\SimonBundle\Controller\PagesController::view'
+    token_providers:
+        title: [content_method, {method: getTitle}]
