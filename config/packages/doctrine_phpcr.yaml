@@ -10,4 +10,9 @@ doctrine_phpcr:
         workspace: default
     odm:
         auto_mapping: true
+        mappings:
+            app:
+                type: annotation
+                prefix: App\Document
+                dir: '%kernel.root_dir%/Document'
         auto_generate_proxy_classes: "%kernel.debug%"

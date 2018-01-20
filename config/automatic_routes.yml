@@ -1,8 +1,8 @@
-Neimad\SimonBundle\Document\Page:
+App\Document\Page:
     definitions:
         view:
             uri_schema: /{title}
             defaults:
-                _controller: 'Neimad\SimonBundle\Controller\PagesController::view'
+                _controller: 'App\Controller\PagesController::view'
     token_providers:
         title: [content_method, {method: getTitle}]

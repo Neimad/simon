@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Document\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class PagesController extends Controller
 {
     /**
-     * Handles the home page
+     * Shows the home page
      */
     public function home(): Response
     {
@@ -20,6 +21,16 @@ final class PagesController extends Controller
                 'title' => 'Home',
                 'content' => 'Proident deserunt eu ullamco laboris amet commodo exercitation culpa sunt nulla duis id. Irure proident proident Lorem incididunt nostrud adipisicing proident deserunt elit aute ut esse non ut. Ullamco Lorem deserunt amet aliqua dolore do aute ad cupidatat exercitation eu. Consequat sit sunt commodo anim nostrud incididunt culpa commodo veniam laboris mollit ipsum enim elit. Proident aliquip veniam ad ad proident est tempor ea nisi velit. Consectetur enim deserunt duis nulla nulla ex. Exercitation eu in id fugiat nostrud sit.'
             ]
+        ]);
+    }
+
+    /**
+     * Shows the given page.
+     */
+    public function view(Page $contentDocument): Response
+    {
+        return $this->render('page.html.twig', [
+            'page' => $contentDocument
         ]);
     }
 }

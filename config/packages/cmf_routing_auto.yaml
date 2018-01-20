@@ -6,3 +6,8 @@ cmf_routing_auto:
         phpcr:
             enabled: true
             route_basepath: '%routes_basepath%'
+
+    auto_mapping: false
+    mapping:
+        resources:
+            - '%kernel.project_dir%/config/automatic_routes.yml'

@@ -2,9 +2,9 @@
 
 namespace Neimad\SimonBundle\DataFixtures\PHPCR;
 
+use App\DataFixtures\PHPCRFixture;
+use App\Document\Page;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
-use Neimad\SimonBundle\Document\Page;
-use Neimad\SimonBundle\DataFixtures\PHPCRFixture;
 
 /**
  * Some Pages fixtures.

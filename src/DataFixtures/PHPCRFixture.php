@@ -1,6 +1,6 @@
 <?php
 
-namespace Neimad\SimonBundle\DataFixtures;
+namespace App\DataFixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -22,7 +22,7 @@ abstract class PHPCRFixture implements FixtureInterface
     }
 
     /**
-     * Loads data fixtures with the given DocumentManager
+     * Loads data fixtures with the given DocumentManager.
      */
     abstract public function loadDocuments(DocumentManagerInterface $dm): void;
 }

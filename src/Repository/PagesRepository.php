@@ -1,6 +1,6 @@
 <?php
 
-namespace Neimad\SimonBundle\Repository;
+namespace App\Repository;
 
 use Doctrine\ODM\PHPCR\DocumentRepository;
 use Doctrine\ODM\PHPCR\Id\RepositoryIdInterface;

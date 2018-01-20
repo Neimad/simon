@@ -1,6 +1,6 @@
 <?php
 
-namespace Neimad\SimonBundle\Document;
+namespace App\Document;
 
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
 use Symfony\Cmf\Component\Routing\RouteReferrersReadInterface;
@@ -8,7 +8,7 @@ use Symfony\Cmf\Component\Routing\RouteReferrersReadInterface;
 /**
  * A simple page.
  *
- * @PHPCR\Document(repositoryClass="Neimad\SimonBundle\Repository\PagesRepository",
+ * @PHPCR\Document(repositoryClass="App\Repository\PagesRepository",
  *                 referenceable=true)
  */
 class Page implements RouteReferrersReadInterface
@@ -19,9 +19,8 @@ class Page implements RouteReferrersReadInterface
     private $id;
 
     /**
-     * @PHPCR\Referrers(
-     *referringDocument="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route",
-     *                   referencedBy="content")
+     * @PHPCR\Referrers(referringDocument="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route",
+     *                  referencedBy="content")
      */
     private $routes;
 
