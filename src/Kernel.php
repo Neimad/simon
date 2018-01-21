@@ -8,71 +8,114 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class Kernel extends BaseKernel
+final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
+    /**
+     * @inheritDoc
+     */
+    public function getName()
+    {
+        return 'simon';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getCacheDir(): string
     {
-        return \sprintf('%s/var/cache/%s',
-            $this->getProjectDir(),
-            $this->environment);
+        $var = $this->getVarDir();
+        $env = $this->getEnvironment();
+
+        return "{$var}/cache/{$env}";
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getLogDir(): string
     {
-        return \sprintf('%s/var/log', $this->getProjectDir());
+        $var = $this->getVarDir();
+
+        return "{$var}/log";
     }
 
+    /**
+     * @inheritDoc
+     */
     public function registerBundles(): \Generator
     {
-        $bundles = require $this->getConfigurationPath('bundles.php');
+        $config = $this->getConfigDir();
+        $env = $this->getEnvironment();
+        $bundles = require "{$config}/bundles.php";
 
         foreach ($bundles as $className => $environments) {
-            if (isset($environments['all']) || isset($environments[$this->environment])) {
+            if (isset($environments['all']) || isset($environments[$env])) {
                 yield new $className();
             }
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
         $container->setParameter('container.autowiring.strict_mode', true);
         $container->setParameter('container.dumper.inline_class_loader', true);
 
-        // Load packages configuration
-        $loader->load($this->getConfigurationPath('packages/*.yaml'), 'glob');
+        $config = $this->getConfigDir();
+        $env = $this->getEnvironment();
 
-        if (\is_dir($this->getConfigurationPath('packages', $this->environment))) {
-            $loader->load($this->getConfigurationPath('packages', $this->environment, '/**/*.yaml'), 'glob');
-        }
+        // Load packages configuration
+        $loader->load("{$config}/packages/*.yaml", 'glob');
+        $loader->load("{$config}/packages/{$env}/*.yaml", 'glob');
 
         // Load application services
-        $loader->load($this->getConfigurationPath('services.yaml'));
+        $loader->load("{$config}/services.yaml");
 
-        if (\file_exists($this->getConfigurationPath('services_' . $this->environment . '.yaml'))) {
-            $loader->load($this->getConfigurationPath('services_' . $this->environment . '.yaml'));
+        if (\file_exists("{$config}/services_{$env}.yaml")) {
+            $loader->load("{$config}/services_{$env}.yaml");
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
+        $config = $this->getConfigDir();
+        $env = $this->getEnvironment();
+
         // Load packages routes
-        if (\is_dir($this->getConfigurationPath('routes'))) {
-            $routes->import($this->getConfigurationPath('routes/*.yaml'), '/', 'glob');
-        }
-        if (\is_dir($this->getConfigurationPath('routes', $this->environment))) {
-            $routes->import($this->getConfigurationPath('routes', $this->environment, '*.yaml'), '/', 'glob');
+        $routes->import("{$config}/routes/*.yaml", '/', 'glob');
+
+        if (\is_dir("{$config}/routes/{$env}")) {
+            $routes->import("{$config}/routes/{$env}/*.yaml", '/', 'glob');
         }
 
         // Load application routes
-        $routes->import($this->getConfigurationPath('routes.yaml'));
+        $routes->import("{$config}/routes.yaml");
     }
 
-    private function getConfigurationPath(string ...$components): string
+    /**
+     * Gives the directory containing the variable files.
+     */
+    private function getVarDir(): string
     {
-        return \sprintf('%s/config/%s',
-            $this->getProjectDir(),
-            \implode("/", $components));
+        $project = $this->getProjectDir();
+
+        return "{$project}/var";
+    }
+
+    /**
+     * Gives the configuration directory.
+     */
+    private function getConfigDir(): string
+    {
+        $project = $this->getProjectDir();
+
+        return "{$project}/config";
     }
 }
