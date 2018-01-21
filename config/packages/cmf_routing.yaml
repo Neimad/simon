@@ -9,5 +9,4 @@ cmf_routing:
                 enabled: true
                 route_basepaths:
                     - '%routes_basepath%'
-                enable_initializer: false
         route_collection_limit: 50

@@ -34,6 +34,11 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "conflict": {
+        "symfony/symfony": "*",
+        "symfony/twig-bundle": "<3.3",
+        "symfony/debug": "<3.3"
+    },
     "config": {
         "preferred-install": {
             "*": "dist"
@@ -61,12 +66,43 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+
+        "prepare": [
+            "bin/console doctrine:phpcr:init:dbal --drop --force --ansi",
+            "bin/console doctrine:phpcr:repository:init --ansi",
+            "bin/console doctrine:phpcr:fixtures:load --no-initialize --append --no-interaction"
+        ],
+        "test": [
+            "phpspec run --format=dot --ansi",
+            "behat --format=progress --colors"
+        ],
+        "check": [
+            "@composer diagnose --ansi",
+            "@composer check-platform-reqs --ansi",
+            "@composer prepare -- --env=test",
+            "@test"
+        ],
+        "clean": [
+            "rm -R ./var/*"
         ]
     },
-    "conflict": {
-        "symfony/symfony": "*",
-        "symfony/twig-bundle": "<3.3",
-        "symfony/debug": "<3.3"
+    "scripts-descriptions": {
+        "prepare": "Prepares the development environment.",
+        "test": "Runs all tests.",
+        "check": "Checks everything is fine.",
+        "clean": "Clean the mess"
+    },
+    "archive": {
+        "exclude": [
+            "vendor",
+            "var",
+            "symfony.lock",
+            "behat.yml.dist",
+            "features",
+            "spec",
+            ".vscode"
+        ]
     },
     "extra": {
         "symfony": {
