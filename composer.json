@@ -1,6 +1,7 @@
 {
     "name": "neimad/simon",
     "description": "Simon CMS",
+    "homepage": "https://github.com/neimad/simon",
     "authors": [
         {
             "name": "Damien Flament",
@@ -14,15 +15,16 @@
         "php": "^7.2",
         "doctrine/doctrine-bundle": "^1.8",
         "doctrine/doctrine-cache-bundle": "^1.3",
-        "doctrine/phpcr-bundle": "^2.0",
-        "doctrine/phpcr-odm": "^1.4",
+        "doctrine/phpcr-bundle": "^2.0@dev",
+        "doctrine/phpcr-odm": "^1.4@dev",
         "jackalope/jackalope-doctrine-dbal": "^1.3",
-        "symfony-cmf/routing-auto-bundle": "^2.0",
-        "symfony-cmf/routing-bundle": "^2.0",
+        "symfony-cmf/routing": "^2.1@dev",
+        "symfony-cmf/routing-auto": "^2.1@dev",
+        "symfony-cmf/routing-auto-bundle": "^2.0@dev",
+        "symfony-cmf/routing-bundle": "^2.0@dev",
         "symfony/console": "^4.0",
         "symfony/framework-bundle": "^4.0",
         "symfony/twig-bundle": "^4.0",
-        "symfony/web-server-bundle": "^4.0",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
@@ -30,10 +32,12 @@
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "phpspec/phpspec": "^4.3",
         "symfony/dotenv": "^4.0",
-        "symfony/flex": "^1.0"
+        "symfony/flex": "^1.0",
+        "symfony/profiler-pack": "^1.0",
+        "symfony/web-server-bundle": "^4.0"
     },
-    "minimum-stability": "dev",
     "prefer-stable": true,
+
     "conflict": {
         "symfony/symfony": "*",
         "symfony/twig-bundle": "<3.3",
@@ -91,7 +95,7 @@
         "prepare": "Prepares the development environment.",
         "test": "Runs all tests.",
         "check": "Checks everything is fine.",
-        "clean": "Clean the mess"
+        "clean": "Clean the mess."
     },
     "archive": {
         "exclude": [
