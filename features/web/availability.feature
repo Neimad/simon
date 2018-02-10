@@ -4,9 +4,9 @@ Feature:
     I want some pages to be available
 
     Scenario:
-        When a user requests the page located at "/"
+        When a user requests the home page
         Then he should receive a response
 
     Scenario:
-        When a user requests the page located at "/foo"
+        When a user requests the "foo" page
         Then he should receive a response

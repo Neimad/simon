@@ -4,7 +4,6 @@ namespace spec\App\Document;
 
 use App\Document\Page;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class PageSpec extends ObjectBehavior
 {
