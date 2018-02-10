@@ -15,22 +15,30 @@ class Page implements RouteReferrersReadInterface
 {
     /**
      * @PHPCR\Id(strategy="repository")
+     *
+     * @var string
      */
     private $id;
 
     /**
      * @PHPCR\Referrers(referringDocument="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route",
      *                  referencedBy="content")
+     *
+     * @var array
      */
     private $routes;
 
     /**
      * @PHPCR\Field(type="string", nullable=false)
+     *
+     * @var string
      */
     private $title;
 
     /**
      * @PHPCR\Field(type="string", nullable=false)
+     *
+     * @var string
      */
     private $content;
 
