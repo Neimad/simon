@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Document;
 
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
@@ -11,7 +13,7 @@ use Symfony\Cmf\Component\Routing\RouteReferrersReadInterface;
  * @PHPCR\Document(repositoryClass="App\Repository\PagesRepository",
  *                 referenceable=true)
  */
-class Page implements DocumentInterface, RouteReferrersReadInterface
+final class Page implements DocumentInterface, RouteReferrersReadInterface
 {
     /**
      * @PHPCR\Id(strategy="repository")

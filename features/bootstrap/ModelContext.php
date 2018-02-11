@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace features\contexts\App;
 
 use App\Document\DocumentInterface;
 use App\Document\HomePage;
 use App\Document\Page;
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Webmozart\Assert\Assert;
 
@@ -43,7 +45,6 @@ class ModelContext implements Context
      */
     public function initWorkspace(): void
     {
-
         `bin/console doctrine:phpcr:repository:init --env=test`;
     }
 
@@ -113,7 +114,7 @@ class ModelContext implements Context
     {
         $document = $this->getDocument();
 
-        $document->setContent($content);
+        $document->setContent((string) $content);
 
         $this->dm->flush($document);
     }

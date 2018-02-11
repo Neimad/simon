@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use Doctrine\ODM\PHPCR\DocumentRepository;
@@ -15,6 +17,8 @@ final class PagesRepository extends DocumentRepository implements RepositoryIdIn
      */
     public function generateId($document, $parent = null)
     {
-        return '/pages/' . $document->getTitle();
+        $title = $document->getTitle();
+
+        return "/pages/{$title}";
     }
 }

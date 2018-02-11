@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -14,8 +16,8 @@ abstract class PHPCRFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         if (!$manager instanceof DocumentManagerInterface) {
-            $class = get_class($manager);
-            throw new \RuntimeException("Fixture requires a PHPCR ODM DocumentManager instance, instance of '$class' given.");
+            $class = \get_class($manager);
+            throw new \RuntimeException("Fixture requires a PHPCR ODM DocumentManager instance, instance of '{$class}' given.");
         }
 
         $this->loadDocuments($manager);

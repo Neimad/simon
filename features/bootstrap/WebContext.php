@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace features\contexts\App;
 
 use Behat\Behat\Context\Context;

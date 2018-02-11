@@ -1,0 +1,51 @@
+<?php
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$finder = Finder::create()
+    ->exclude('var')
+    ->exclude('spec')
+    ->in(__DIR__)
+;
+
+return Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+
+        'linebreak_after_opening_tag' => true,
+        'declare_strict_types' => true,
+
+        'align_multiline_comment' => ['comment_type' => 'all_multiline'],
+        'multiline_comment_opening_closing' => true,
+        'phpdoc_inline_tag' => false,
+
+        'array_syntax' => ['syntax' => 'short'],
+        'list_syntax' => ['syntax' => 'short'],
+
+        'explicit_string_variable' => true,
+        'heredoc_to_nowdoc' => true,
+
+        'no_unreachable_default_argument_value' => true,
+        'no_superfluous_elseif' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+
+        'ordered_class_elements' => true,
+        'ordered_imports' => true,
+
+        'compact_nullable_typehint' => true,
+        'combine_consecutive_issets' => true,
+        'combine_consecutive_unsets' => true,
+        'native_function_invocation' => true,
+        'strict_comparison' => true,
+        'strict_param' => true,
+        'ternary_to_null_coalescing' => true,
+
+        'method_chaining_indentation' => true,
+    ])
+    ->setFinder($finder)
+    ->setRiskyAllowed(true)
+    ->setCacheFile(__DIR__.'/var/cache/.php_cs.cache')
+;
