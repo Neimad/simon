@@ -77,15 +77,15 @@
             "bin/console doctrine:phpcr:repository:init --ansi --no-interaction",
             "bin/console doctrine:phpcr:fixtures:load --no-initialize --append --ansi --no-interaction"
         ],
-        "test": [
+        "check": [
             "phpspec run --format=dot --ansi --no-interaction",
             "behat --format=progress --colors --no-interaction"
         ],
-        "check": [
+        "check-all": [
             "@composer diagnose --ansi",
             "@composer check-platform-reqs --ansi",
             "@composer prepare -- --env=test",
-            "@test"
+            "@check"
         ],
         "clean": [
             "rm -R ./var/cache/*"
@@ -93,8 +93,8 @@
     },
     "scripts-descriptions": {
         "prepare": "Prepares the development environment.",
-        "test": "Runs all tests.",
-        "check": "Checks everything is fine.",
+        "check": "Checks the application behavior.",
+        "check-all": "Checks everything is fine.",
         "clean": "Clean the mess."
     },
     "extra": {

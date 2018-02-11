@@ -3,6 +3,8 @@
 namespace features\contexts\App;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -22,35 +24,76 @@ class WebContext implements Context
     }
 
     /**
-     * @Transform :uri
+     * @When I requests the home page
      */
-    public function getPageUri(string $name): string
+    public function requestsTheHomePage(): void
     {
-        $uris = [
-            'home' => '/',
-            'foo' => '/foo',
-        ];
-
-        if (!isset($uris[$name])) {
-            throw \InvalidArgumentException("Unknown URI for page '$name'");
-        }
-
-        return $uris[$name];
+        $this->response = $this->kernel->handle(Request::create('/'), KernelInterface::MASTER_REQUEST, false);
     }
 
     /**
-     * @When a user requests the :uri page
+     * @Given a page exists with title :title and content
+     * @When I create a page with title :title and content
      */
-    public function requestPage(string $uri): void
+    public function createPage(string $title, PyStringNode $content): void
     {
-        $this->response = $this->kernel->handle(Request::create($uri), KernelInterface::MASTER_REQUEST, false);
+        throw new PendingException();
     }
 
     /**
-     * @Then he should receive a response
+     * @When I delete it
      */
-    public function shouldReceiveResponse(): void
+    public function delete(): void
     {
-        Assert::notNull($this->response);
+        throw new PendingException();
+    }
+
+    /**
+     * @When I set its title to :title
+     */
+    public function setTitle(string $title)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When I set its content to
+     */
+    public function setContent(PyStringNode $content)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then I should get it successfully
+     * @Then it should be available
+     */
+    public function shouldBeAvailable(): void
+    {
+        Assert::same($this->response->getStatusCode(), Response::HTTP_OK);
+    }
+
+    /**
+     * @Then it should be unaivalable
+     */
+    public function shouldBeUnaivalable()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then its title should be :title
+     */
+    public function shouldHaveTitle(string $title)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then its content should be
+     */
+    public function shouldHaveContent(PyStringNode $content)
+    {
+        throw new PendingException();
     }
 }

@@ -1,0 +1,23 @@
+default:
+    suites:
+        model:
+            paths:
+                - 'features'
+            contexts:
+                - features\contexts\App\ModelContext:
+                    dm: '@doctrine_phpcr.odm.default_document_manager'
+        web:
+            paths:
+                - 'features'
+            contexts:
+                - features\contexts\App\WebContext:
+                    kernel: '@kernel'
+
+    testers:
+        strict: true
+
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: features/bootstrap/bootstrap.php
+                class: App\Kernel

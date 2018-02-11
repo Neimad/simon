@@ -2,6 +2,7 @@
 
 namespace spec\App\Document;
 
+use App\Document\DocumentInterface;
 use App\Document\Page;
 use PhpSpec\ObjectBehavior;
 
@@ -10,6 +11,11 @@ class PageSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(Page::class);
+    }
+
+    function it_is_a_document()
+    {
+        $this->shouldImplement(DocumentInterface::class);
     }
 
     function it_has_a_title()
