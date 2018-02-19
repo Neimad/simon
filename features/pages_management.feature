@@ -3,7 +3,6 @@ Feature: Pages management
     As an administrator
     I need to be able to create and delete pages and update their content
 
-
     Scenario: Creating a page
         When I create a page with title "Foo" and content
             """

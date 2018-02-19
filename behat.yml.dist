@@ -1,19 +1,22 @@
 default:
     suites:
         model:
-            paths:
-                - 'features'
             contexts:
                 - features\contexts\App\ModelContext:
                     dm: '@doctrine_phpcr.odm.default_document_manager'
-        web:
-            paths:
-                - 'features'
+        ui:
             contexts:
-                - features\contexts\App\WebContext:
+                - features\contexts\App\UIContext:
                     kernel: '@kernel'
+                    dm: '@doctrine_phpcr.odm.default_document_manager'
+
+    gherkin:
+        cache: var/cache/behat/gherkin
+        filters:
+            tags: '~@wip'
 
     testers:
+        rerun_cache: var/cache/behat/rerun
         strict: true
 
     extensions:

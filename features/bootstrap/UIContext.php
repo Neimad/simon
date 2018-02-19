@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace features\contexts\App;
 
-use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
+use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Webmozart\Assert\Assert;
 
-class WebContext implements Context
+final class UIContext extends AbstractDocumentContext
 {
     /** @var KernelInterface */
     private $kernel;
@@ -20,9 +21,11 @@ class WebContext implements Context
     /** @var Response */
     private $response;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, DocumentManagerInterface $dm)
     {
         $this->kernel = $kernel;
+
+        parent::__construct($dm);
     }
 
     /**
@@ -30,11 +33,14 @@ class WebContext implements Context
      */
     public function requestsTheHomePage(): void
     {
-        $this->response = $this->kernel->handle(Request::create('/'), KernelInterface::MASTER_REQUEST, false);
+        $this->response = $this->kernel->handle(
+            Request::create('/'),
+            KernelInterface::MASTER_REQUEST,
+            false
+        );
     }
 
     /**
-     * @Given a page exists with title :title and content
      * @When I create a page with title :title and content
      */
     public function createPage(string $title, PyStringNode $content): void
@@ -53,7 +59,7 @@ class WebContext implements Context
     /**
      * @When I set its title to :title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         throw new PendingException();
     }
@@ -61,7 +67,7 @@ class WebContext implements Context
     /**
      * @When I set its content to
      */
-    public function setContent(PyStringNode $content)
+    public function setContent(PyStringNode $content): void
     {
         throw new PendingException();
     }
@@ -78,7 +84,7 @@ class WebContext implements Context
     /**
      * @Then it should be unaivalable
      */
-    public function shouldBeUnaivalable()
+    public function shouldBeUnavailable(): void
     {
         throw new PendingException();
     }
@@ -86,7 +92,7 @@ class WebContext implements Context
     /**
      * @Then its title should be :title
      */
-    public function shouldHaveTitle(string $title)
+    public function shouldHaveTitle(string $title): void
     {
         throw new PendingException();
     }
@@ -94,7 +100,7 @@ class WebContext implements Context
     /**
      * @Then its content should be
      */
-    public function shouldHaveContent(PyStringNode $content)
+    public function shouldHaveContent(PyStringNode $content): void
     {
         throw new PendingException();
     }
