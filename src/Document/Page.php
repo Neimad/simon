@@ -13,7 +13,7 @@ use Symfony\Cmf\Component\Routing\RouteReferrersReadInterface;
  * @PHPCR\Document(repositoryClass="App\Repository\PagesRepository",
  *                 referenceable=true)
  */
-final class Page implements DocumentInterface, RouteReferrersReadInterface
+class Page implements DocumentInterface, RouteReferrersReadInterface
 {
     /**
      * @PHPCR\Id(strategy="repository")

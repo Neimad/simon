@@ -20,7 +20,7 @@ Feature: Pages management
             nostrud adipisicing proident deserunt elit aute ut esse non ut.
             """
         When I delete it
-        Then it should be unaivalable
+        Then it should be unavailable
 
     Scenario: Updating a page title
         Given a page exists with title "Foo" and content

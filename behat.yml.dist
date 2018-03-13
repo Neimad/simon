@@ -2,13 +2,18 @@ default:
     suites:
         model:
             contexts:
-                - features\contexts\App\ModelContext:
+                - features\contexts\App\FixturesContext:
+                    dm: '@doctrine_phpcr.odm.default_document_manager'
+                - features\contexts\App\PagesContext:
                     dm: '@doctrine_phpcr.odm.default_document_manager'
         ui:
             contexts:
-                - features\contexts\App\UIContext:
-                    kernel: '@kernel'
+                - features\contexts\App\FixturesContext:
                     dm: '@doctrine_phpcr.odm.default_document_manager'
+                - features\contexts\App\WebPagesContext:
+                    kernel: "@kernel"
+                - features\contexts\App\WebMenuContext:
+                    kernel: "@kernel"
 
     gherkin:
         cache: var/cache/behat/gherkin
@@ -24,3 +29,5 @@ default:
             kernel:
                 bootstrap: features/bootstrap/bootstrap.php
                 class: App\Kernel
+                env: test
+                debug: true

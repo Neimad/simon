@@ -95,9 +95,6 @@
             "ref": "bb31a3bbec00a8fc8aa1c9fbf9b0ef9fc492f93d"
         }
     },
-    "gecko-packages/gecko-php-unit": {
-        "version": "v3.1.1"
-    },
     "jackalope/jackalope": {
         "version": "1.3.4"
     },
@@ -185,6 +182,9 @@
     "symfony-cmf/slugifier-api": {
         "version": "2.0.0"
     },
+    "symfony/browser-kit": {
+        "version": "v4.0.6"
+    },
     "symfony/cache": {
         "version": "v3.3.13"
     },
@@ -203,6 +203,9 @@
             "ref": "9f94d3ea453cd8a3b95db7f82592d7344fe3a76a"
         }
     },
+    "symfony/css-selector": {
+        "version": "v4.0.6"
+    },
     "symfony/debug": {
         "version": "v3.3.13"
     },
@@ -211,6 +214,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v4.0.3"
+    },
+    "symfony/dom-crawler": {
+        "version": "v4.0.6"
     },
     "symfony/dotenv": {
         "version": "v3.3.13"

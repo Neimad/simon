@@ -5,21 +5,32 @@ declare(strict_types=1);
 namespace features\contexts\App;
 
 use App\Document\HomePage;
+use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Webmozart\Assert\Assert;
 
-final class ModelContext extends AbstractDocumentContext
+final class PagesContext implements Context
 {
+    use FixturesAwareTrait;
+
+    /** @var DocumentManagerInterface */
+    private $dm;
+
+    public function __construct(DocumentManagerInterface $dm)
+    {
+        $this->dm = $dm;
+    }
+
     /**
      * @When I requests the home page
      */
     public function requestsTheHomePage(): void
     {
-        $dm = $this->getDocumentManager();
-        $repository = $dm->getRepository(HomePage::class);
+        $repository = $this->dm->getRepository(HomePage::class);
         $page = $repository->find();
 
-        $this->setDocument($page);
+        $this->getFixturesContext()->addFixture($page);
     }
 
     /**
@@ -27,7 +38,7 @@ final class ModelContext extends AbstractDocumentContext
      */
     public function createPage(string $title, PyStringNode $content): void
     {
-        $this->pageExists($title, $content);
+        $this->getFixturesContext()->createPage($title, $content);
     }
 
     /**
@@ -35,11 +46,10 @@ final class ModelContext extends AbstractDocumentContext
      */
     public function delete(): void
     {
-        $dm = $this->getDocumentManager();
-        $document = $this->getDocument();
+        $document = $this->getFixturesContext()->getFixture();
 
-        $dm->remove($document);
-        $dm->flush($document);
+        $this->dm->remove($document);
+        $this->dm->flush($document);
     }
 
     /**
@@ -47,12 +57,11 @@ final class ModelContext extends AbstractDocumentContext
      */
     public function setTitle(string $title): void
     {
-        $dm = $this->getDocumentManager();
-        $document = $this->getDocument();
+        $document = $this->getFixturesContext()->getFixture();
 
         $document->setTitle($title);
 
-        $dm->flush($document);
+        $this->dm->flush($document);
     }
 
     /**
@@ -60,12 +69,11 @@ final class ModelContext extends AbstractDocumentContext
      */
     public function setContent(PyStringNode $content): void
     {
-        $dm = $this->getDocumentManager();
-        $document = $this->getDocument();
+        $document = $this->getFixturesContext()->getFixture();
 
         $document->setContent((string) $content);
 
-        $dm->flush($document);
+        $this->dm->flush($document);
     }
 
     /**
@@ -74,15 +82,15 @@ final class ModelContext extends AbstractDocumentContext
      */
     public function shouldBeAvailable(): void
     {
-        Assert::notNull($this->getDocument());
+        Assert::true($this->getFixturesContext()->hasFixture());
     }
 
     /**
-     * @Then it should be unaivalable
+     * @Then it should be unavailable
      */
     public function shouldBeUnaivalable(): void
     {
-        Assert::null($this->getDocument());
+        Assert::false($this->getFixturesContext()->hasFixture());
     }
 
     /**
@@ -90,7 +98,7 @@ final class ModelContext extends AbstractDocumentContext
      */
     public function shouldHaveTitle(string $title): void
     {
-        $document = $this->getDocument();
+        $document = $this->getFixturesContext()->getFixture();
 
         Assert::same($document->getTitle(), $title);
     }
@@ -100,7 +108,7 @@ final class ModelContext extends AbstractDocumentContext
      */
     public function shouldHaveContent(PyStringNode $content): void
     {
-        $document = $this->getDocument();
+        $document = $this->getFixturesContext()->getFixture();
 
         Assert::same($document->getContent(), (string) $content);
     }
